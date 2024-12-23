@@ -1,0 +1,49 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+    //    Arrays.sort(nums);
+    //    return nums; 
+    mergeSort(nums,0,nums.length-1);
+    return nums;
+    }
+    void mergeSort(int arr[],int s,int e){
+        if(s==e) return;
+        int mid=(s+e)/2;
+        mergeSort(arr,s,mid);
+         mergeSort(arr,mid+1,e);
+         mergeTwoSortedArrays(arr,s,mid,e);
+    }
+     void mergeTwoSortedArrays(int arr[],int s,int mid,int e){
+        int i=s;
+        int j=mid+1;
+        int temp[]=new int [e-s+1];
+        int k=0;
+        while(i<= mid && j<=e){
+            if(arr[i]<arr[j]){
+              temp[k]=arr[i];
+            i++;
+            k++;
+        }else{
+            temp[k]=arr[j];
+            k++;
+            j++;
+        }
+        }
+        while(i<= mid){
+            temp[k]=arr[i];
+            i++;
+            k++;
+        }
+        while(j<=e){
+            temp[k]=arr[j];
+            j++;
+            k++;
+        }
+ i=s;
+ k=0;
+ while(k<temp.length){
+    arr[i]=temp[k];
+    i++;
+    k++;
+ }
+    }
+}
