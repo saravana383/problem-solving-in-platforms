@@ -1,0 +1,50 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        
+        ArrayList<Integer>[] graph=new ArrayList[numCourses];
+
+        for(int i=0;i<numCourses;i++){
+            graph[i]=new ArrayList<>();
+        }
+        int[] indegree=new int[numCourses];
+
+        for(int i=0;i<prerequisites.length;i++){
+            int u=prerequisites[i][0];
+            int v=prerequisites[i][1];
+            graph[u].add(v);
+
+            indegree[v]++;
+        }
+
+        boolean[] visit=new boolean[numCourses];
+        Queue<Integer> q=new LinkedList<>();
+
+        for(int i=0;i<indegree.length;i++){
+            if(indegree[i]==0){
+                q.add(i);
+            }
+        }
+            int count=0;
+
+            while(q.size()>0){
+
+                int rem=q.poll();
+                count++;
+
+                visit[rem]=true;
+
+                for(int nb : graph[rem]){
+                    if(visit[nb]==false){
+                        indegree[nb]--;
+
+                        if(indegree[nb]==0)  q.add(nb);
+                    }
+                }
+            }
+            if(count==numCourses){
+                return true;
+            }
+            
+        return false;
+    }
+}
