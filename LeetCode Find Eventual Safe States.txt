@@ -1,0 +1,50 @@
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        
+         ArrayList<Integer>[] mygraph = new ArrayList[graph.length];
+         int[] in_degree = new int[graph.length];
+        
+        for(int i=0;i<graph.length;i++){
+            mygraph[i] = new ArrayList<>();
+        }
+        for(int i=0;i<graph.length;i++){
+            for(int j=0;j<graph[i].length;j++){
+                int u = graph[i][j];
+                mygraph[u].add(i);
+                in_degree[i]++;
+            }
+        }
+        
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        boolean[] visited =new boolean[mygraph.length];
+        int count=0;
+
+        Queue<Integer> q =new LinkedList<>();
+
+        for(int i=0;i<in_degree.length;i++){
+            if(in_degree[i]==0)
+            q.add(i);
+        }
+
+        while(!q.isEmpty()){
+            int rem = q.poll();
+
+            visited[rem]=true;
+            count++;
+            ans.add(rem);
+
+            for(int nbr : mygraph[rem]){
+                if(visited[nbr]==false){
+                    in_degree[nbr]--;
+                    if(in_degree[nbr]==0)
+                    q.add(nbr);
+                }
+            }
+        }
+
+        Collections.sort(ans);
+        return ans;
+        
+    }
+}
