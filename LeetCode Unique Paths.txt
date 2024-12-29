@@ -1,0 +1,41 @@
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int [][] dp = new int[m][n]; 
+        int count = helper(0,0,m-1,n-1,dp);
+        return count;
+    }
+    public int helper_tab(int sr,int sc,int dr,int dc,int [][]dp){
+        for(int i=sr;i<=dr;i++){
+            for(int j=sc;j<=dc;j++){
+                int la=0;
+                int ra=0;
+                if(i==0 && j==0) {
+                     dp[i][j]=1;
+                     continue;
+                    }
+
+                if(j<0) la = dp[i][j+1];
+                if(i>0) ra = dp[i+1][j];
+
+                dp[i][j]= la+ra;
+
+            }
+        }
+        return dp[dr][dc];
+    }
+    public int  helper (int sr,int sc,int dr,int dc,int [][]dp){
+
+        if(sr==dr && sc==dc) return 1;
+
+        if(sr>dr || sc>dc)  return 0;
+
+        if(dp[sr][sc]!=0) return dp[sr][sc];
+
+        int la = helper(sr,sc+1,dr,dc,dp);
+        int ra = helper(sr+1,sc,dr,dc,dp);
+
+        dp[sr][sc] = (la+ra);
+
+        return (la+ra);
+    }
+}
